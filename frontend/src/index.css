@@ -1,0 +1,45 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-ink: #070a11;
+  --color-panel: #0f1521;
+  --color-panel-2: #151d2c;
+  --color-edge: #2b3a53;
+  --color-muted: #8b97ab;
+  --color-brand: #6366f1;
+  --color-brand-soft: #4f46e5;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-ink text-slate-100 antialiased;
+  background-image:
+    radial-gradient(60rem 40rem at 15% -10%, rgb(99 102 241 / 0.16), transparent 60%),
+    radial-gradient(50rem 30rem at 100% 0%, rgb(14 165 233 / 0.1), transparent 55%);
+  background-attachment: fixed;
+}
+
+::selection {
+  @apply bg-brand/40;
+}
+
+/* thin dark scrollbars for the board canvas */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-edge) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--color-edge);
+  border-radius: 9999px;
+}
