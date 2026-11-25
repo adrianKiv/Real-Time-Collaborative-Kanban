@@ -573,7 +573,7 @@ export default function BoardView() {
                 <button
                   type="button"
                   onClick={() => setBoardSettingsOpen(true)}
-                  className="flex items-center gap-1.5 rounded-lg border border-edge bg-panel/70 px-3 py-1.5 text-xs font-medium text-slate-200 transition hover:border-brand/50 hover:text-white"
+                  className="flex items-center gap-1.5 rounded-lg border border-edge bg-panel/70 px-3 py-1.5 text-xs font-medium text-slate-200 transition hover:border-brand/50 hover:text-foreground"
                 >
                   <Pencil className="h-3.5 w-3.5" /> Edit Board
                 </button>
@@ -593,7 +593,7 @@ export default function BoardView() {
                 <button
                   type="button"
                   onClick={() => setInviteOpen(true)}
-                  className="flex items-center gap-1.5 rounded-lg border border-edge bg-panel/70 px-3 py-1.5 text-xs font-medium text-slate-200 transition hover:border-brand/50 hover:text-white"
+                  className="flex items-center gap-1.5 rounded-lg border border-edge bg-panel/70 px-3 py-1.5 text-xs font-medium text-slate-200 transition hover:border-brand/50 hover:text-foreground"
                 >
                   <UserPlus className="h-3.5 w-3.5" /> Invite Member
                 </button>
@@ -692,7 +692,7 @@ export default function BoardView() {
                   <button
                     type="submit"
                     disabled={newColumn.busy || !newColumn.title.trim()}
-                    className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-lg bg-brand px-3 py-2 text-xs font-semibold text-white transition hover:bg-brand-soft disabled:opacity-50"
+                    className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-lg bg-brand px-3 py-2 text-xs font-semibold text-ink transition hover:bg-brand-soft disabled:opacity-50"
                   >
                     {newColumn.busy ? (
                       <Loader2 className="h-3.5 w-3.5 animate-spin" />

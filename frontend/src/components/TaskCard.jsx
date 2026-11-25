@@ -29,7 +29,7 @@ export function Avatar({ user, size = 'sm', title }) {
   return (
     <span
       title={title ?? user.name}
-      className={`flex ${dimension} items-center justify-center rounded-full bg-brand/20 font-semibold text-indigo-200 ring-1 ring-inset ring-brand/30`}
+      className={`flex ${dimension} items-center justify-center rounded-full bg-brand/20 font-semibold text-brand ring-1 ring-inset ring-brand/30`}
     >
       {initials(user.name)}
     </span>

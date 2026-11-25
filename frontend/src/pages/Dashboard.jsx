@@ -55,7 +55,7 @@ export default function Dashboard() {
       <header className="sticky top-0 z-20 border-b border-edge/60 bg-ink/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
           <div className="flex items-center gap-2.5">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand text-sm font-bold text-white">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand text-sm font-bold text-ink">
               K
             </span>
             <span className="text-sm font-semibold tracking-tight">Kiv Kanban</span>
@@ -63,7 +63,7 @@ export default function Dashboard() {
 
           <div className="flex items-center gap-2">
             <div className="hidden items-center gap-2 rounded-full border border-edge/70 bg-panel/60 py-1 pl-1 pr-3 sm:flex">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand/20 text-[10px] font-semibold text-indigo-200">
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand/20 text-[10px] font-semibold text-brand">
                 {initials(user?.name)}
               </span>
               <span className="text-xs text-slate-300">{user?.name}</span>
@@ -93,7 +93,7 @@ export default function Dashboard() {
           <button
             type="button"
             onClick={() => setCreating((prev) => !prev)}
-            className="flex items-center gap-2 rounded-lg bg-brand px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-brand-soft"
+            className="flex items-center gap-2 rounded-lg bg-brand px-3.5 py-2 text-sm font-semibold text-ink transition hover:bg-brand-soft"
           >
             {creating ? <X className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
             {creating ? 'Cancel' : 'New board'}
@@ -138,7 +138,7 @@ export default function Dashboard() {
             <button
               type="submit"
               disabled={busy || !form.title.trim()}
-              className="flex items-center justify-center gap-2 rounded-lg bg-emerald-500/90 px-3.5 py-2 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex items-center justify-center gap-2 rounded-lg bg-brand px-3.5 py-2 text-sm font-semibold text-ink transition hover:bg-brand-soft disabled:cursor-not-allowed disabled:opacity-50"
             >
               {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
               Create

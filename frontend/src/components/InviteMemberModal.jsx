@@ -98,7 +98,7 @@ export default function InviteMemberModal({ open, boardTitle, onClose, onInvite 
             <button
               type="submit"
               disabled={busy}
-              className="flex items-center gap-1.5 rounded-lg bg-brand px-3.5 py-1.5 text-xs font-semibold text-white transition hover:bg-brand-soft disabled:opacity-60"
+              className="flex items-center gap-1.5 rounded-lg bg-brand px-3.5 py-1.5 text-xs font-semibold text-ink transition hover:bg-brand-soft disabled:opacity-60"
             >
               {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <UserPlus className="h-3.5 w-3.5" />}
               Send invite

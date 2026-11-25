@@ -33,7 +33,7 @@ export default function Register() {
     <div className="flex min-h-full items-center justify-center px-4 py-16">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-brand text-lg font-bold text-white shadow-lg shadow-brand/30">
+          <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-brand text-lg font-bold text-ink shadow-lg shadow-brand/30">
             K
           </div>
           <h1 className="text-xl font-semibold tracking-tight">Create your account</h1>
@@ -94,7 +94,7 @@ export default function Register() {
           <button
             type="submit"
             disabled={busy}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-brand px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-soft disabled:cursor-not-allowed disabled:opacity-60"
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-brand px-3 py-2.5 text-sm font-semibold text-ink transition hover:bg-brand-soft disabled:cursor-not-allowed disabled:opacity-60"
           >
             {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <UserPlus className="h-4 w-4" />}
             {busy ? 'Creating…' : 'Create account'}
@@ -103,7 +103,7 @@ export default function Register() {
 
         <p className="mt-6 text-center text-sm text-muted">
           Already registered?{' '}
-          <Link to="/login" className="font-medium text-brand hover:text-indigo-300">
+          <Link to="/login" className="font-medium text-brand hover:text-brand-soft">
             Sign in
           </Link>
         </p>
