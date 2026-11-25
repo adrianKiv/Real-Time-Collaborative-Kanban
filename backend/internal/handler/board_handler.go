@@ -71,6 +71,44 @@ func (h *BoardHandler) Get(c *gin.Context) {
 	utils.OK(c, gin.H{"board": board})
 }
 
+// PUT /api/boards/:id
+func (h *BoardHandler) Update(c *gin.Context) {
+	boardID, ok := paramID(c, "id")
+	if !ok {
+		return
+	}
+
+	var req createBoardRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		utils.FailWithDetails(c, http.StatusBadRequest, "invalid request body", err.Error())
+		return
+	}
+
+	board, err := h.boards.Update(c.Request.Context(), middleware.UserID(c), boardID, service.CreateBoardInput{
+		Title:       req.Title,
+		Description: req.Description,
+	})
+	if err != nil {
+		respondServiceError(c, err)
+		return
+	}
+	utils.OK(c, gin.H{"board": board})
+}
+
+// DELETE /api/boards/:id
+func (h *BoardHandler) Delete(c *gin.Context) {
+	boardID, ok := paramID(c, "id")
+	if !ok {
+		return
+	}
+
+	if err := h.boards.Delete(c.Request.Context(), middleware.UserID(c), boardID); err != nil {
+		respondServiceError(c, err)
+		return
+	}
+	utils.OK(c, gin.H{"deleted_board_id": boardID})
+}
+
 // POST /api/boards/:id/members
 func (h *BoardHandler) AddMember(c *gin.Context) {
 	boardID, ok := paramID(c, "id")

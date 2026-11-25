@@ -22,6 +22,10 @@ type columnTitleRequest struct {
 	Title string `json:"title" binding:"required,max=160"`
 }
 
+type moveColumnRequest struct {
+	NewPosition *float64 `json:"new_position" binding:"required"`
+}
+
 // POST /api/boards/:id/columns
 func (h *ColumnHandler) Create(c *gin.Context) {
 	boardID, ok := paramID(c, "id")
@@ -57,6 +61,26 @@ func (h *ColumnHandler) Update(c *gin.Context) {
 	}
 
 	column, err := h.columns.Update(c.Request.Context(), middleware.UserID(c), columnID, req.Title)
+	if err != nil {
+		respondServiceError(c, err)
+		return
+	}
+	utils.OK(c, gin.H{"column": column})
+}
+
+// PATCH /api/columns/:id/move
+func (h *ColumnHandler) Move(c *gin.Context) {
+	columnID, ok := paramID(c, "id")
+	if !ok {
+		return
+	}
+
+	var req moveColumnRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		utils.FailWithDetails(c, http.StatusBadRequest, "invalid request body", err.Error())
+		return
+	}
+	column, err := h.columns.Move(c.Request.Context(), middleware.UserID(c), columnID, *req.NewPosition)
 	if err != nil {
 		respondServiceError(c, err)
 		return

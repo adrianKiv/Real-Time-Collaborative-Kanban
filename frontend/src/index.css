@@ -43,3 +43,49 @@ body {
   background-color: var(--color-edge);
   border-radius: 9999px;
 }
+
+.scrollbar-hidden {
+  scrollbar-width: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+.horizontal-scrollbar {
+  scrollbar-color: var(--color-brand) var(--color-panel-2);
+  scrollbar-width: auto;
+  /* Memberi ruang napas agar scrollbar tidak menempel mepet ke konten */
+  padding-bottom: 4px;
+}
+
+.horizontal-scrollbar::-webkit-scrollbar {
+  /* Lebih tinggi dan mudah diklik/di-drag (dari 8px menjadi 12px) */
+  height: 20px;
+}
+
+.horizontal-scrollbar::-webkit-scrollbar-track {
+  background: var(--color-panel-2);
+  border-radius: 9999px;
+  /* Sedikit batas dalam agar thumb terlihat mengambang rapi */
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.horizontal-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--color-brand);
+  border-radius: 9999px;
+  border: 2px solid var(--color-panel-2);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.horizontal-scrollbar::-webkit-scrollbar-thumb:hover {
+  /* Sedikit lebih terang/terlihat saat diarahkan kursor */
+  filter: brightness(1.15);
+  cursor: grab;
+}
+
+.horizontal-scrollbar::-webkit-scrollbar-thumb:active {
+  cursor: grabbing;
+  filter: brightness(0.95);
+}

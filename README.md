@@ -36,7 +36,7 @@ The Go service is organized into HTTP handlers, services, repositories, and GORM
 4. The hub marshals each event once and queues it for all clients in that board room. A slow client is disconnected rather than blocking broadcasts to the rest of the room. A write pump serializes event and heartbeat writes.
 5. The frontend reconnects with exponential backoff and applies events idempotently by record ID. It reconciles the sender's own events with optimistic/API updates, and refreshes board data after a reconnect to recover missed events.
 
-Supported events: `TASK_CREATED`, `TASK_UPDATED`, `TASK_DELETED`, `TASK_MOVED`, `COLUMN_CREATED`, `COLUMN_UPDATED`, `COLUMN_DELETED`, and `MEMBER_ADDED`.
+Supported events: `BOARD_UPDATED`, `BOARD_DELETED`, `TASK_CREATED`, `TASK_UPDATED`, `TASK_DELETED`, `TASK_MOVED`, `COLUMN_CREATED`, `COLUMN_UPDATED`, `COLUMN_MOVED`, `COLUMN_DELETED`, and `MEMBER_ADDED`.
 
 ## Tech stack
 
@@ -125,7 +125,7 @@ npm run build
 
 ## API overview
 
-The API is rooted at `/api`. Authentication endpoints are `POST /auth/register`, `POST /auth/login`, and `GET /auth/me`. Protected board endpoints cover board listing/creation/detail, member invitations, and column creation. Task create/update/delete and move operations are exposed under `/columns/:id/tasks` and `/tasks/:id`; moving uses `PATCH /tasks/:id/move` with `to_column_id` and `new_position`.
+The API is rooted at `/api`. Authentication endpoints are `POST /auth/register`, `POST /auth/login`, and `GET /auth/me`. Protected board endpoints cover board listing/creation/detail/update/deletion, member invitations, and column creation. Columns support title update, deletion, and position changes through `PATCH /columns/:id/move` with `new_position`. Task create/update/delete and move operations are exposed under `/columns/:id/tasks` and `/tasks/:id`; moving uses `PATCH /tasks/:id/move` with `to_column_id` and `new_position`.
 
 ## Repository layout
 

@@ -14,6 +14,7 @@ type ColumnRepository interface {
 	FindByID(ctx context.Context, id uint) (*models.Column, error)
 	NextPosition(ctx context.Context, boardID uint) (float64, error)
 	UpdateTitle(ctx context.Context, id uint, title string) error
+	UpdatePosition(ctx context.Context, id uint, position float64) error
 	Delete(ctx context.Context, id uint) error
 }
 
@@ -60,6 +61,13 @@ func (r *columnRepository) UpdateTitle(ctx context.Context, id uint, title strin
 		Model(&models.Column{}).
 		Where("id = ?", id).
 		Update("title", title).Error
+}
+
+func (r *columnRepository) UpdatePosition(ctx context.Context, id uint, position float64) error {
+	return r.db.WithContext(ctx).
+		Model(&models.Column{}).
+		Where("id = ?", id).
+		Update("position", position).Error
 }
 
 func (r *columnRepository) Delete(ctx context.Context, id uint) error {

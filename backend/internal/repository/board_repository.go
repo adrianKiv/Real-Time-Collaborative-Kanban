@@ -28,6 +28,8 @@ type BoardRepository interface {
 	Exists(ctx context.Context, boardID uint) (bool, error)
 	ListForUser(ctx context.Context, userID uint) ([]models.Board, error)
 	FindDetail(ctx context.Context, boardID uint) (*models.Board, error)
+	UpdateDetails(ctx context.Context, boardID uint, title, description string) error
+	Delete(ctx context.Context, boardID uint) error
 }
 
 type boardRepository struct {
@@ -101,9 +103,51 @@ func (r *boardRepository) ListForUser(ctx context.Context, userID uint) ([]model
 	if err != nil {
 		return nil, err
 	}
+
+	boardIDs := make([]uint, len(boards))
+	for i := range boards {
+		boardIDs[i] = boards[i].ID
+	}
+	if len(boardIDs) == 0 {
+		return boards, nil
+	}
+
+	type boardCount struct {
+		BoardID uint
+		Count   int64
+	}
+	memberCounts := make([]boardCount, 0)
+	if err := r.db.WithContext(ctx).
+		Model(&models.BoardMember{}).
+		Select("board_id, COUNT(*) AS count").
+		Where("board_id IN ?", boardIDs).
+		Group("board_id").
+		Scan(&memberCounts).Error; err != nil {
+		return nil, err
+	}
+	columnCounts := make([]boardCount, 0)
+	if err := r.db.WithContext(ctx).
+		Model(&models.Column{}).
+		Select("board_id, COUNT(*) AS count").
+		Where("board_id IN ?", boardIDs).
+		Group("board_id").
+		Scan(&columnCounts).Error; err != nil {
+		return nil, err
+	}
+
+	membersByBoard := make(map[uint]int64, len(memberCounts))
+	for _, count := range memberCounts {
+		membersByBoard[count.BoardID] = count.Count
+	}
+	columnsByBoard := make(map[uint]int64, len(columnCounts))
+	for _, count := range columnCounts {
+		columnsByBoard[count.BoardID] = count.Count
+	}
 	for i := range boards {
 		boards[i].Members = []models.BoardMember{}
 		boards[i].Columns = []models.Column{}
+		boards[i].MemberCount = membersByBoard[boards[i].ID]
+		boards[i].ColumnCount = columnsByBoard[boards[i].ID]
 	}
 	return boards, nil
 }
@@ -139,4 +183,15 @@ func (r *boardRepository) FindDetail(ctx context.Context, boardID uint) (*models
 	}
 
 	return &board, nil
+}
+
+func (r *boardRepository) UpdateDetails(ctx context.Context, boardID uint, title, description string) error {
+	return r.db.WithContext(ctx).
+		Model(&models.Board{}).
+		Where("id = ?", boardID).
+		Updates(map[string]any{"title": title, "description": description}).Error
+}
+
+func (r *boardRepository) Delete(ctx context.Context, boardID uint) error {
+	return r.db.WithContext(ctx).Delete(&models.Board{}, boardID).Error
 }

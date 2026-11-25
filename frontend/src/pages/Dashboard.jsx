@@ -58,7 +58,7 @@ export default function Dashboard() {
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand text-sm font-bold text-white">
               K
             </span>
-            <span className="text-sm font-semibold tracking-tight">Kanban</span>
+            <span className="text-sm font-semibold tracking-tight">Kiv Kanban</span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -175,11 +175,19 @@ export default function Dashboard() {
                   </div>
                   <div className="flex items-center justify-between text-xs text-muted">
                     <span className="flex items-center gap-3">
-                      <span className="flex items-center gap-1">
-                        <Users className="h-3.5 w-3.5" /> {board.members?.length ?? 0}
+                      <span className="flex items-center gap-1" title="Board members">
+                        <Users className="h-3.5 w-3.5" aria-hidden="true" />
+                        {board.member_count ?? board.members?.length ?? 0}{' '}
+                        {(board.member_count ?? board.members?.length ?? 0) === 1
+                          ? 'member'
+                          : 'members'}
                       </span>
-                      <span className="flex items-center gap-1">
-                        <Columns3 className="h-3.5 w-3.5" /> {board.columns?.length ?? 0}
+                      <span className="flex items-center gap-1" title="Board columns">
+                        <Columns3 className="h-3.5 w-3.5" aria-hidden="true" />
+                        {board.column_count ?? board.columns?.length ?? 0}{' '}
+                        {(board.column_count ?? board.columns?.length ?? 0) === 1
+                          ? 'column'
+                          : 'columns'}
                       </span>
                     </span>
                     <ArrowRight className="h-4 w-4 text-slate-500 transition group-hover:translate-x-0.5 group-hover:text-brand" />

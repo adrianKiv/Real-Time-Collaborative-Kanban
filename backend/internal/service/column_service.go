@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"errors"
+	"math"
 	"strings"
 
 	"kanban/internal/models"
@@ -66,6 +67,24 @@ func (s *ColumnService) Update(ctx context.Context, userID, columnID uint, title
 
 	broadcast(s.events, column.BoardID, ws.EventColumnUpdated, column, userID)
 
+	return column, nil
+}
+
+// Move changes a column's ordering position.
+func (s *ColumnService) Move(ctx context.Context, userID, columnID uint, position float64) (*models.Column, error) {
+	if math.IsNaN(position) || math.IsInf(position, 0) {
+		return nil, ErrInvalidPosition
+	}
+	column, err := s.columnForMember(ctx, userID, columnID)
+	if err != nil {
+		return nil, err
+	}
+	if err := s.columns.UpdatePosition(ctx, column.ID, position); err != nil {
+		return nil, err
+	}
+	column.Position = position
+	column.Tasks = []models.Task{}
+	broadcast(s.events, column.BoardID, ws.EventColumnMoved, column, userID)
 	return column, nil
 }
 

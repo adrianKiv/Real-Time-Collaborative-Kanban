@@ -7,9 +7,12 @@ import (
 
 // Broadcast event names.
 const (
+	EventBoardUpdated  = "BOARD_UPDATED"
+	EventBoardDeleted  = "BOARD_DELETED"
 	EventColumnCreated = "COLUMN_CREATED"
 	EventColumnUpdated = "COLUMN_UPDATED"
 	EventColumnDeleted = "COLUMN_DELETED"
+	EventColumnMoved   = "COLUMN_MOVED"
 	EventTaskCreated   = "TASK_CREATED"
 	EventTaskUpdated   = "TASK_UPDATED"
 	EventTaskDeleted   = "TASK_DELETED"

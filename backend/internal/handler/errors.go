@@ -42,7 +42,8 @@ func respondServiceError(c *gin.Context, err error) {
 		utils.Fail(c, http.StatusConflict, err.Error())
 
 	case errors.Is(err, service.ErrTitleRequired),
-		errors.Is(err, service.ErrInvalidPrior):
+		errors.Is(err, service.ErrInvalidPrior),
+		errors.Is(err, service.ErrInvalidPosition):
 		utils.Fail(c, http.StatusBadRequest, err.Error())
 
 	default:

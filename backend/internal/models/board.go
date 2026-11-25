@@ -11,4 +11,6 @@ type Board struct {
 	CreatedAt   time.Time     `json:"created_at"`
 	Members     []BoardMember `gorm:"foreignKey:BoardID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"members"`
 	Columns     []Column      `gorm:"foreignKey:BoardID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"columns"`
+	MemberCount int64         `gorm:"-" json:"member_count,omitempty"`
+	ColumnCount int64         `gorm:"-" json:"column_count,omitempty"`
 }

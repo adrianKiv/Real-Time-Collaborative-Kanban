@@ -69,6 +69,40 @@ func (s *BoardService) Get(ctx context.Context, userID, boardID uint) (*models.B
 	return board, nil
 }
 
+// Update changes a board's title and description. Only board admins may edit it.
+func (s *BoardService) Update(ctx context.Context, userID, boardID uint, in CreateBoardInput) (*models.Board, error) {
+	if _, err := requireBoardAdmin(ctx, s.boards, boardID, userID); err != nil {
+		return nil, err
+	}
+
+	title := strings.TrimSpace(in.Title)
+	if title == "" {
+		return nil, ErrTitleRequired
+	}
+	if err := s.boards.UpdateDetails(ctx, boardID, title, strings.TrimSpace(in.Description)); err != nil {
+		return nil, err
+	}
+
+	board, err := s.boards.FindDetail(ctx, boardID)
+	if err != nil {
+		return nil, err
+	}
+	broadcast(s.events, boardID, ws.EventBoardUpdated, board, userID)
+	return board, nil
+}
+
+// Delete removes a board and its dependent members, columns, and tasks.
+func (s *BoardService) Delete(ctx context.Context, userID, boardID uint) error {
+	if _, err := requireBoardAdmin(ctx, s.boards, boardID, userID); err != nil {
+		return err
+	}
+	if err := s.boards.Delete(ctx, boardID); err != nil {
+		return err
+	}
+	broadcast(s.events, boardID, ws.EventBoardDeleted, map[string]uint{"id": boardID}, userID)
+	return nil
+}
+
 // AddMember invites an existing user (by email) as a plain member. Admin only.
 func (s *BoardService) AddMember(ctx context.Context, userID, boardID uint, email string) (*models.BoardMember, error) {
 	if _, err := requireBoardAdmin(ctx, s.boards, boardID, userID); err != nil {

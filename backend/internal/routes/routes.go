@@ -61,6 +61,8 @@ func New(db *gorm.DB, cfg *config.Config) *gin.Engine {
 			boards.GET("", boardHandler.List)
 			boards.POST("", boardHandler.Create)
 			boards.GET("/:id", boardHandler.Get)
+			boards.PUT("/:id", boardHandler.Update)
+			boards.DELETE("/:id", boardHandler.Delete)
 			boards.POST("/:id/members", boardHandler.AddMember)
 			boards.POST("/:id/columns", columnHandler.Create)
 		}
@@ -69,6 +71,7 @@ func New(db *gorm.DB, cfg *config.Config) *gin.Engine {
 		{
 			columns.PUT("/:id", columnHandler.Update)
 			columns.DELETE("/:id", columnHandler.Delete)
+			columns.PATCH("/:id/move", columnHandler.Move)
 			columns.POST("/:id/tasks", taskHandler.Create)
 		}
 
